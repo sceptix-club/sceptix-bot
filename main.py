@@ -6,16 +6,14 @@ from discord.ext import commands
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
-GUILD = os.getenv('DISCORD_GUILD')
 
 bot = commands.Bot(command_prefix='!', intents=discord.Intents().all())
 
-extensions = ['cogs.games', 'cogs.utilities', 'cogs.moderator']
+extensions = ['cogs.games', 'cogs.utilities', 'cogs.moderator', 'cogs.listeners']
 
 async def main():
     for ext in extensions:
         await bot.load_extension(ext)
-    
     await bot.start(TOKEN)
 
 if __name__ == "__main__":
