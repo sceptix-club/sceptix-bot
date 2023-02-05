@@ -47,14 +47,30 @@ def get_rpssl(choice: str) -> int:
 
 
 def play_rpssl(my_choice: int, bot_choice: int) -> str:
+    rpssl_inflection = {
+        0: ["crushes", "crushes"],
+        1: ["covers", "disproves"],
+        2: ["cuts", "decapitates"],
+        3: ["smashes", "vapourises"],
+        4: ["poisons", "eats"],
+    }
+
+    choices = ["Rock", "Paper", "Scissors", "Spock", "Lizard"]
+
     diff = abs(bot_choice - my_choice)
-    if diff == 0:
-        return "That's a tie!"
-    if diff in [1, 3]:
-        winner = max(bot_choice, my_choice)
-    if diff in [2, 4]:
-        winner = min(bot_choice, my_choice)
+
+    if diff == 0: return "That's a tie!"
+    if diff in [1, 3]: winner = max(bot_choice, my_choice)
+    else: winner = min(bot_choice, my_choice)
+
+    loser = my_choice + bot_choice - winner
+
     if winner == my_choice:
-        return "You won!"
+        position = "You won \U0001F38A"
     else:
-        return "You lost \U0001F641"
+        position = "You lost \U0001F641"
+
+    if diff > 1: diff = diff % 2
+    else: diff = diff - 1
+
+    return f"{choices[winner]} {rpssl_inflection[winner][diff]} {choices[loser].lower()}. " + position

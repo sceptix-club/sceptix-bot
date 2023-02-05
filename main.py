@@ -6,7 +6,7 @@ import typing
 from datetime import datetime
 from dotenv import load_dotenv
 from discord.ext import commands
-from discord.ext.commands import has_role, has_permissions, MissingPermissions
+from discord.ext.commands import has_role, has_permissions
 
 from helpers import find_user, get_rps, play_rps, get_rpssl, play_rpssl
 import messages as ms
@@ -80,6 +80,7 @@ async def rps(ctx, *, choice: str=None):
         await ctx.send('Invalid Choice')
     else:
         bot_choice = random.choice(["Rock", "Paper", "Scissors"])
+        await ctx.send(f'You chose {choice}')
         await ctx.send(f'I chose {bot_choice}')
         await ctx.send(play_rps(choice, bot_choice))
 
@@ -96,15 +97,16 @@ async def rpsls(ctx, *, choice: str=None):
     except Exception:
         await ctx.send('Invalid Choice')
     else:
-        bot_choice = random.randint(0, 4)
         choices = ["Rock", "Paper", "Scissors", "Spock", "Lizard"]
+        await ctx.send(f'You chose {choices[choice]}')
+        bot_choice = random.randint(0, 4)
         await ctx.send(f'I chose {choices[bot_choice]}')
         await ctx.send(play_rpssl(choice, bot_choice))
 
 # PRIVILEDGED COMMANDS
 
 @bot.command(name='purge', description='Deletes bulk messages')
-@has_role('The High Table')
+@commands.has_role('The High Table')
 async def delete_messages(ctx, *, count: int=10):
     if not 0 < count <= 100:
         await ctx.send("```!purge {number-of-messages}\nDeletes a 100 messages maximum.```")
@@ -113,7 +115,7 @@ async def delete_messages(ctx, *, count: int=10):
 
 
 @bot.command(name='kick', description='Deletes bulk messages')
-@has_role('The High Table')
+@commands.has_role('The High Table')
 async def kick(ctx, member: discord.Member, reason: str=None):
     await member.kick(reason=reason)
     await ctx.send(f"{member.display_name} has been kicked" + (reason) * f"for {reason}")
@@ -123,7 +125,7 @@ async def kick(ctx, member: discord.Member, reason: str=None):
 @bot.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.errors.CheckFailure):
-        await ctx.send('You are not a Council Member.')
+        await ctx.send('You are not authorised to execute this.', delete_after=5.0)
 
 
 bot.run(TOKEN)
