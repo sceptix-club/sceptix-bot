@@ -6,6 +6,7 @@ import typing
 from datetime import datetime
 from dotenv import load_dotenv
 from discord.ext import commands
+from discord.ext.commands import has_role, has_permissions, MissingPermissions
 
 from helpers import find_user, get_rps, play_rps, get_rpssl, play_rpssl
 import messages as ms
@@ -103,13 +104,21 @@ async def rpsls(ctx, *, choice: str=None):
 # PRIVILEDGED COMMANDS
 
 @bot.command(name='purge', description='Deletes bulk messages')
-@commands.has_role('Council')
+@has_role('The High Table')
 async def delete_messages(ctx, *, count: int=10):
     if not 0 < count <= 100:
         await ctx.send("```!purge {number-of-messages}\nDeletes a 100 messages maximum.```")
     else:
         await ctx.channel.purge(limit=count)
 
+
+@bot.command(name='kick', description='Deletes bulk messages')
+@has_role('The High Table')
+async def kick(ctx, member: discord.Member, reason: str=None):
+    await member.kick(reason=reason)
+    await ctx.send(f"{member.display_name} has been kicked" + (reason) * f"for {reason}")
+
+# ERRORS
 
 @bot.event
 async def on_command_error(ctx, error):
