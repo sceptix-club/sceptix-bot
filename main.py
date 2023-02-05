@@ -9,7 +9,7 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 
 bot = commands.Bot(command_prefix='!', intents=discord.Intents().all())
 
-extensions = ['cogs.games', 'cogs.utilities', 'cogs.moderator', 'cogs.listeners']
+extensions = ['cogs.games', 'cogs.utilities', 'cogs.moderator', 'cogs.listener']
 
 async def main():
     for ext in extensions:

@@ -40,6 +40,10 @@ class Utilities(commands.Cog):
         else:
             await ctx.send(f'{member.display_name} joined {ctx.guild.name} on {discord.utils.format_dt(member.joined_at)}')
 
+    @commands.command(description='Returns the ping of the bot')
+    async def ping(self, ctx):
+        pong = round(self.bot.latency * 1000)
+        await ctx.send(f"Pong! {pong}ms")
 
     @commands.command(name='announce', description='Announces a message as an embed')
     @commands.has_role('The High Table')
