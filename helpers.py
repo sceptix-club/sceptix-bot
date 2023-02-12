@@ -1,4 +1,5 @@
 import discord
+from datetime import timedelta, datetime
 
 
 def find_user(author: discord.Member, users: list, pat: str) -> discord.Member:
@@ -15,11 +16,11 @@ def find_user(author: discord.Member, users: list, pat: str) -> discord.Member:
 
 def get_rps(choice: str) -> str:
     choice = choice.lower().strip()
-    if 'rock' in choice or 'r' == choice:
+    if choice.startswith('r'):
         return "Rock"
-    if 'paper' in choice or 'p' == choice:
+    if choice.startswith('p'):
         return "Paper"
-    if 'scissor' in choice or 's' == choice: # Scissor spelt singularly for better UX
+    if choice.startswith('s'):
         return "Scissors"
     raise Exception('Invalid Choice')
 

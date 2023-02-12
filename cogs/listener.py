@@ -1,8 +1,9 @@
 import os
 import discord
 from discord.ext import commands
+import messages as ms
 
-UNVERIFIED_ID = os.getenv('UNVERIFIED_ID')
+UNVERIFIED_ID = int(os.getenv('UNVERIFIED_ID'))
 GUILD = os.getenv('GUILD')
 
 class Listener(commands.Cog):
@@ -18,6 +19,7 @@ class Listener(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
+        print(member.name)
         await member.create_dm()
         await member.dm_channel.send(ms.dm_message.format(name=member.name))
         guild = discord.utils.get(self.bot.guilds, name=GUILD)

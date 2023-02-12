@@ -1,13 +1,14 @@
 import os
 import discord
 from discord.ext import commands
+from discord.ext.commands import has_role, has_permissions
 
 import messages as ms
 from helpers import find_user
 
-WELCOME_CHANNEL_ID = os.getenv('WELCOME_CHANNEL_ID')
-UNVERIFIED_ID = os.getenv('UNVERIFIED_ID')
-VERIFIED_ID = os.getenv('VERIFIED_ID')
+UNVERIFIED_ID = int(os.getenv('UNVERIFIED_ID'))
+VERIFIED_ID = int(os.getenv('VERIFIED_ID'))
+WELCOME_ID = int(os.getenv('WELCOME_ID'))
 
 class Utilities(commands.Cog):
 
@@ -52,18 +53,17 @@ class Utilities(commands.Cog):
         embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.display_avatar)
         await channel.send(content='@everyone', embed=embed)
 
-
     @commands.command(name='verify', description='Allows an unverified user access to the server')
     @commands.has_role('unverified')
-    async def verify_me(self, ctx, *name):
-        if ctx.channel != ctx.guild.get_channel(WELCOME_CHANNEL_ID):
+    async def verify(self, ctx, *name):
+        if ctx.channel != ctx.guild.get_channel(WELCOME_ID):
             return
 
         name = ' '.join(name).title()
         await ctx.author.edit(nick=name)
+        await ctx.channel.purge(limit=100, check=lambda m: not m.pinned)
         await ctx.author.add_roles(ctx.guild.get_role(VERIFIED_ID))
         await ctx.author.remove_roles(ctx.guild.get_role(UNVERIFIED_ID))
-        await ctx.channel.purge(100, check=lambda m: not m.pinned)
 
 
 async def setup(bot):
