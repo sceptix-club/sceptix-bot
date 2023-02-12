@@ -35,7 +35,7 @@ class Games(commands.Cog):
     # Game inspired from this article
     # https://eduherminio.github.io/blog/rock-paper-scissors/
     @commands.command(name='rpssl', description='Play Rock Paper Scissors Spock Lizard')
-    async def rpsls(self, ctx, *, choice: str=None):
+    async def rpssl(self, ctx, *, choice: str=None):
         if choice is None:
             await ctx.send("```!rpsls {your-choice}\nRock (Ro), Paper (Pa), Scissors (Sc), Spock (Sp), and Lizard (Li).```")
             return

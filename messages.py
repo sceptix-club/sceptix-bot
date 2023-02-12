@@ -21,3 +21,28 @@ A working example would be:
 Command not working? You must pass at least one arguement. Mention if you think it's broken.
 ```
 '''
+
+help_message = '''```
+The sceptix bot v1.0
+====================
+
+Utilities
+    av          Shows the user's avatar.
+    joined      Shows the user's join date.
+    ping        Shows bot latency.
+
+Games
+    flip        Flips a coin.
+    choose      Chooses from a given list.
+    rps         Plays Rock Paper Scissors.
+    rpssl       Plays Rock Paper Scissors Spock Lizard.
+
+Moderator
+    purge       Bulk deletes messages
+    kick        Kicks a user
+    roleadd     Adds a specified role all (human) members.
+    roleremove  Removes a specified role from all (human) members.
+    rename      Changes the nickname of a specified user.
+    kill        Kills the user.
+    revive      Revives the user.
+```'''
