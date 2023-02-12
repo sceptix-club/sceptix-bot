@@ -3,7 +3,8 @@ import discord
 from discord.ext import commands
 from discord.ext.commands import has_role, has_permissions
 
-verified = os.getenv('VERIFIED_ID')
+verified = int(os.getenv('VERIFIED_ID'))
+killed = int(os.getenv('KILLED_ID'))
 
 class Moderator(commands.Cog):
 
@@ -52,6 +53,20 @@ class Moderator(commands.Cog):
     async def rename(self, ctx, member: discord.Member, *name):
         name = ' '.join(name)
         await member.edit(nick=name)
+
+    @commands.command()
+    @commands.has_role('The High Table')
+    async def kill(self, ctx, member: discord.Member):
+        await member.add_roles(ctx.guild.get_role(killed))
+        await member.remove_roles(ctx.guild.get_role(verified))
+        await ctx.send(f'{member.mention} was slain by {ctx.author.mention}.', delete_after=60)
+
+    @commands.command()
+    @commands.has_role('The High Table')
+    async def revive(self, ctx, member: discord.Member):
+        if ctx.guild.get_role(killed) in member.roles:
+            await member.remove_roles(ctx.guild.get_role(killed))
+            await member.add_roles(ctx.guild.get_role(verified))
 
 
 async def setup(bot):
